@@ -1,0 +1,46 @@
+world:
+  height: 130.3
+  width: 173.70000000000002
+  step_time: 0.1
+  sample_time: 0.1
+  offset:
+  - 0
+  - 0
+  collision_mode: stop
+  control_mode: auto
+  obstacle_map: /home/invs/gaussian20250530/20260429GS+MotionPlan/20260518GS+irsim/6.6_outputs_test_for_Github/scene01_irsim_free_unknown_repro/scene01_gs_irsim_free_unknown_repro_obstacle_map.png
+  mdownsample: 4
+  plot:
+    show_title: true
+robot:
+- kinematics:
+    name: diff
+  shape:
+    name: circle
+    radius: 0.25
+  state:
+  - 1.1
+  - 1.1
+  - 0.0
+  goal:
+  - 172.6999969482422
+  - 129.3000030517578
+  - 0.0
+  behavior:
+    name: dash
+  vel_max:
+  - 1.0
+  - 1.0
+  plot:
+    show_trail: true
+    show_trajectory: true
+    show_goal: true
+  sensors:
+  - type: lidar2d
+    range_min: 0
+    range_max: 10
+    angle_range: 3.14
+    number: 120
+    noise: false
+    alpha: 0.35
+obstacle: []

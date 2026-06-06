@@ -1,0 +1,56 @@
+image: map.png
+resolution: 0.05
+origin:
+- -27.087214279174802
+- -104.7578239440918
+width: 3474
+height: 2606
+occupied_value: 0
+unknown_value: 127
+free_value: 255
+robot_radius: 0.25
+floor_z: -0.4308110475540161
+coordinate_frame: x-z topdown, y-up
+image_transform: transpose_rotate_180
+axes:
+  plane:
+  - x
+  - z
+  up: y
+  requested_up_axis: auto
+bounds:
+  x_min: -27.087214279174802
+  x_max: 103.17754592895508
+  y_min: -104.7578239440918
+  y_max: 68.9172912597657
+thresholds:
+  ground_min_height: -0.05
+  ground_max_height: 0.15
+  obstacle_min_height: 0.2
+  obstacle_max_height: 1.5
+  opacity_threshold: 0.1
+stats:
+  input_points: 1544581
+  points_in_bounds_after_opacity: 1496537
+  ground_points: 336025
+  obstacle_points: 307741
+  width: 2606
+  height: 3474
+ply_properties:
+- x
+- y
+- z
+- nx
+- ny
+- nz
+- f_dc_0
+- f_dc_1
+- f_dc_2
+- opacity
+- scale_0
+- scale_1
+- scale_2
+- rot_0
+- rot_1
+- rot_2
+- rot_3

@@ -1,0 +1,8 @@
+source_occupancy_dir: /home/invs/gaussian20250530/20260429GS+MotionPlan/20260518GS+irsim/6.6_outputs_test_for_Github/scene01_occupancy_aligned_repro
+source_map_yaml: /home/invs/gaussian20250530/20260429GS+MotionPlan/20260518GS+irsim/6.6_outputs_test_for_Github/scene01_occupancy_aligned_repro/map.yaml
+unknown_as: free
+source_resolution: 0.05
+image_shape:
+- 2606
+- 3474
+note: IR-SIM ignores the original GS world origin; this YAML uses local image coordinates.

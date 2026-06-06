@@ -1,0 +1,9 @@
+{
+  "source_trace": "/home/invs/gaussian20250530/20260429GS+MotionPlan/20260518GS+irsim/outputs/manual_click_follow/irsim_follow_trace.jsonl",
+  "source_map_yaml": "/home/invs/gaussian20250530/20260429GS+MotionPlan/20260518GS+irsim/6.6_outputs_test_for_Github/scene01_occupancy_aligned_repro/map.yaml",
+  "source_world": "/home/invs/gaussian20250530/20260429GS+MotionPlan/20260518GS+irsim/6.6_outputs_test_for_Github/scene01_irsim_free_unknown_repro/scene01_gs_irsim_free_unknown_repro.yaml",
+  "dt": 0.1,
+  "camera_height": 1.5,
+  "num_frames": 476,
+  "trajectory": "/home/invs/gaussian20250530/20260429GS+MotionPlan/20260518GS+irsim/6.6_outputs_test_for_Github/manual_click_follow_gs_sync_repro/gs_agent_trajectory.jsonl"
+}
