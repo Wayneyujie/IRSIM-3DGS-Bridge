@@ -2,6 +2,13 @@
 
 Bridge scripts and documentation for a practical closed loop between a 3D Gaussian Splatting scene, IR-SIM path following, and Habitat-GS first-person playback.
 
+## What This Repository Gives You
+
+- A public `scene01` demo path that starts from downloading a GS scene
+- A minimal bridge from `3DGS -> occupancy map -> IR-SIM world -> IR-SIM trace -> Habitat-GS trajectory`
+- A live-sync workflow where IR-SIM motion is reflected back into Habitat-GS viewers
+- Lightweight example outputs so users can inspect expected artifacts before running the full pipeline
+
 This repository does not train 3DGS scenes, build Habitat-GS, or ship IR-SIM itself. It focuses on the glue:
 
 1. Download or prepare a Habitat-GS-compatible 3DGS scene.
@@ -10,6 +17,21 @@ This repository does not train 3DGS scenes, build Habitat-GS, or ship IR-SIM its
 4. Run A* and IR-SIM waypoint following.
 5. Convert the resulting IR-SIM trace back into a Habitat-GS camera trajectory.
 6. Replay that trajectory inside `gaussian_viewer.py` in either overview or first-person mode.
+
+## Closed Loop At A Glance
+
+```text
+scene01.gs.ply
+  -> gs_to_occupancy.py
+  -> scene01_occupancy_aligned/map.yaml + map.png
+  -> export_irsim_world_from_occupancy.py
+  -> scene01_gs_irsim_free_unknown.yaml
+  -> interactive_astar_irsim.py --follow
+  -> irsim_follow_trace.jsonl
+  -> convert_irsim_trace_to_gs_trajectory.py
+  -> gs_agent_trajectory.jsonl
+  -> gaussian_viewer.py --agent-trajectory
+```
 
 ## Repository Scope
 
@@ -236,6 +258,15 @@ Lightweight expected outputs are checked in under [examples/expected_outputs](ex
 - `live_sync_repro`
 
 These are not meant to replace the full run. They exist so users can inspect the expected file structure and debug plots before running the pipeline.
+
+## Repository Layout
+
+```text
+scripts/                  bridge logic
+configs/live_sync/        fixed overview viewpoint
+docs/                     setup, pipeline, custom-scene notes, troubleshooting
+examples/expected_outputs lightweight reference artifacts
+```
 
 ## Troubleshooting
 
