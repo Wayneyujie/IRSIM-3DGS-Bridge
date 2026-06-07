@@ -10,6 +10,26 @@ That mirrors the workflow used during development:
 - `habitat-gs` runs Habitat-GS itself and the 3DGS-side bridge scripts
 - `irsim_latest` runs IR-SIM following and the live watcher
 
+Validated references:
+
+- `habitat-gs`: `eb322e97772dedd00e36c4267dbc5619d0bffa52`
+- `ir-sim`: `201244932d60942e8f214757bb01ca10373c1e5c`
+
+## Fast Path
+
+If you already have a working Habitat-GS environment, the shortest path is:
+
+```bash
+bash scripts/install_bridge_python.sh
+bash scripts/write_bridge_env.sh \
+  --habitat-gs-root /path/to/habitat-gs \
+  --habitat-python /path/to/habitat-gs-env/bin/python
+source .bridge.env
+bash scripts/run_scene01_demo.sh --viewer first_person
+```
+
+The rest of this page explains the longer manual setup in detail.
+
 ## Recommended Layout
 
 ```text
@@ -18,7 +38,16 @@ That mirrors the workflow used during development:
 /path/to/IRSIM-3DGS-Bridge
 ```
 
-Export these paths in every shell session or put them in your shell rc:
+Export these paths in every shell session, put them in your shell rc, or generate them with:
+
+```bash
+bash scripts/write_bridge_env.sh \
+  --habitat-gs-root /path/to/habitat-gs \
+  --habitat-python /path/to/habitat-gs-env/bin/python
+source .bridge.env
+```
+
+Manual form:
 
 ```bash
 export BRIDGE_ROOT=/path/to/IRSIM-3DGS-Bridge
@@ -68,6 +97,7 @@ Example flow:
 ```bash
 git clone https://github.com/zju3dv/habitat-gs.git
 cd habitat-gs
+git checkout eb322e97772dedd00e36c4267dbc5619d0bffa52
 git submodule sync --recursive
 git submodule update --init --recursive --jobs 1
 ```
@@ -115,6 +145,12 @@ If your setup differs, follow the official Habitat-GS instructions first and use
 
 ```bash
 pip install -r $BRIDGE_ROOT/requirements-bridge.txt
+```
+
+Or from the repository root:
+
+```bash
+bash scripts/install_bridge_python.sh --skip-irsim --python /path/to/habitat-gs-env/bin/python
 ```
 
 ### Optional: download the public demo scene
@@ -188,24 +224,30 @@ python -m pip install --upgrade pip setuptools wheel
 
 ### Install IR-SIM
 
-This repository does not vendor IR-SIM. Point `IRSIM_ROOT` at your local IR-SIM checkout:
-
-```bash
-export IRSIM_ROOT=/path/to/ir-sim
-```
-
 The upstream IR-SIM repository documents three installation styles:
 
 - `pip install ir-sim`
 - `pip install ir-sim[all]`
 - source install with `pip install -e .`
 
-For bridge development, a source checkout is usually the most practical:
+For the bridge quick demo, pip installation is the lowest-friction option:
+
+```bash
+pip install "ir-sim[all]"
+```
+
+For bridge development, a source checkout is still practical:
 
 ```bash
 git clone https://github.com/hanruihua/ir-sim.git
 cd ir-sim
 pip install -e .
+```
+
+If you use a source checkout and want the bridge to import IR-SIM from there directly, point `IRSIM_ROOT` at it:
+
+```bash
+export IRSIM_ROOT=/path/to/ir-sim
 ```
 
 Do not rely on bridge-side dependencies alone for the IR-SIM environment. In testing, installing only `requirements-bridge.txt` was not enough because upstream IR-SIM runtime dependencies such as `shapely` were still missing.
@@ -216,7 +258,7 @@ After that, install the bridge-side dependencies needed by the watcher and plott
 pip install -r $BRIDGE_ROOT/requirements-bridge.txt
 ```
 
-If IR-SIM is not installed as a normal package, that is fine. The bridge uses:
+If IR-SIM is not installed as a normal package, that is fine. The bridge can also use:
 
 ```bash
 python $BRIDGE_ROOT/scripts/interactive_astar_irsim.py --irsim_root $IRSIM_ROOT ...

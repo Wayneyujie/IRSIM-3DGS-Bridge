@@ -46,7 +46,8 @@ The watcher expects `clicked_start_goal_world.yaml` to appear after the follow s
 
 The trace file is only created during the follow loop. Check:
 
-- IR-SIM import path via `--irsim_root` or `$IRSIM_ROOT`
+- whether `ir-sim` is installed in the active Python interpreter
+- IR-SIM import path via `--irsim_root` or `$IRSIM_ROOT` when using a source checkout
 - whether the follow process exited early
 
 ## `import irsim` fails even though bridge requirements were installed
@@ -59,7 +60,13 @@ pip install -r requirements-bridge.txt
 
 is not enough for the IR-SIM runtime environment.
 
-Install IR-SIM itself first, preferably from source:
+Install IR-SIM itself first. The fastest option is:
+
+```bash
+pip install "ir-sim[all]"
+```
+
+Or install from source:
 
 ```bash
 git clone https://github.com/hanruihua/ir-sim.git

@@ -258,8 +258,15 @@ def save_debug_plot(grid: GridMap, path_xy: list[tuple[float, float]], start_xy:
 
 
 def run_irsim_follow(args: argparse.Namespace, path_xy: list[tuple[float, float]], start_xy: tuple[float, float], goal_xy: tuple[float, float], output_dir: Path) -> None:
-    sys.path.insert(0, str(args.irsim_root))
-    import irsim  # type: ignore
+    if args.irsim_root is not None:
+        sys.path.insert(0, str(args.irsim_root))
+    try:
+        import irsim  # type: ignore
+    except ImportError as exc:
+        raise RuntimeError(
+            "Could not import irsim. Install it with `pip install ir-sim[all]`, "
+            "or pass --irsim_root /path/to/ir-sim."
+        ) from exc
 
     cfg = load_yaml(args.world)
     cfg["robot"][0]["state"] = [float(start_xy[0]), float(start_xy[1]), 0.0]
@@ -346,9 +353,6 @@ def main() -> int:
     parser.add_argument("--k_angular", type=float, default=2.0)
     parser.add_argument("--turn_in_place_angle", type=float, default=0.75)
     args = parser.parse_args()
-    if args.follow and args.irsim_root is None:
-        parser.error("--follow requires --irsim_root or the IRSIM_ROOT environment variable")
-
     cfg = load_yaml(args.world)
     world = cfg["world"]
     map_path = Path(world["obstacle_map"])
