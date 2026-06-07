@@ -14,21 +14,12 @@ Bridge scripts for a practical closed loop:
 
 ## Why This Repository Exists
 
-This repository focuses on the glue, not the full upstream stacks.
-
-It gives you:
+This repository gives you:
 
 - A public `scene01` demo that starts from downloading a GS scene
 - A minimal closed loop from `3DGS -> IR-SIM -> Habitat-GS`
 - A one-command demo runner with repository defaults
 - A live-sync workflow where IR-SIM motion is reflected back into Habitat-GS
-
-It does not:
-
-- train 3DGS scenes
-- vendor Habitat-GS
-- vendor IR-SIM
-- generate collision meshes for arbitrary custom scenes
 
 ## What You See After Running It
 
@@ -40,18 +31,16 @@ It does not:
 
 Example checked-in artifacts live under [examples/expected_outputs](examples/expected_outputs).
 
-## Tested Versions
-
-This bridge was validated against:
-
-- `habitat-gs` commit `eb322e97772dedd00e36c4267dbc5619d0bffa52`
-- `ir-sim` commit `201244932d60942e8f214757bb01ca10373c1e5c`
-
-`IR-SIM` can be installed directly from PyPI for the quick demo. `Habitat-GS` is still the heavy dependency and should be installed separately.
-
 ## Fastest Path
 
-### 1. Install the bridge-side Python stack
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Wayneyujie/IRSIM-3DGS-Bridge.git
+cd IRSIM-3DGS-Bridge
+```
+
+### 2. Install the bridge-side Python stack
 
 This installs:
 
@@ -62,13 +51,15 @@ This installs:
 bash scripts/install_bridge_python.sh
 ```
 
-If you want a non-default interpreter:
+If you are not using the shell's default `python`, pass the exact interpreter you want to install into.
+
+Example:
 
 ```bash
-bash scripts/install_bridge_python.sh --python /path/to/python
+bash scripts/install_bridge_python.sh --python /path/to/conda-env/bin/python
 ```
 
-### 2. Save your local paths once
+### 3. Save your local paths once
 
 This writes a reusable `.bridge.env` file in the repository root.
 
@@ -84,7 +75,7 @@ Then load it:
 source .bridge.env
 ```
 
-### 3. Run the full public `scene01` demo
+### 4. Run the full public `scene01` demo
 
 This single command:
 
@@ -104,7 +95,7 @@ Outputs go to:
 outputs/quickstart/scene01/
 ```
 
-### 4. Open the final effect in Habitat-GS
+### 5. Open the final effect in Habitat-GS
 
 First-person replay:
 
@@ -127,7 +118,7 @@ bash scripts/run_scene01_demo.sh \
   --habitat-python /path/to/habitat-gs-env/bin/python
 ```
 
-## Quick Demo Defaults
+## What The One-Command Demo Uses
 
 The one-command demo intentionally hardcodes the known-good public `scene01` settings:
 
@@ -140,6 +131,14 @@ The one-command demo intentionally hardcodes the known-good public `scene01` set
 - replay camera height: `1.5`
 
 Those defaults keep the homepage demo short and reproducible. The detailed knobs remain available in the Python scripts and docs.
+
+## What You Need Before Running The Viewer
+
+- A working local `habitat-gs`
+- A working `gaussian_viewer.py`
+- The path to your Habitat-GS Python interpreter
+
+The quick demo can run the IR-SIM side directly from `pip install ir-sim[all]`.
 
 ## Repository Layout
 
@@ -176,5 +175,5 @@ The homepage keeps the path short on purpose. Use the docs when you want to cust
 ## Notes
 
 - `IRSIM_ROOT` is optional for the quick demo when `ir-sim` is installed from PyPI.
-- `Habitat-GS` remains the main heavyweight dependency. The quick scripts assume you already have a working `gaussian_viewer.py`.
-- If you downloaded only `scene01`, Habitat-GS may still warn about missing `scene02` to `scene55` navmeshes in the shared dataset config. That is expected as long as `scene01` itself loads.
+- `HABITAT_PYTHON` means the Python executable inside the environment where Habitat-GS already works.
+- Example: `/path/to/miniconda3/envs/habitat-gs/bin/python`
