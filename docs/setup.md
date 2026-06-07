@@ -167,6 +167,8 @@ python examples/gaussian_viewer.py \
 
 If step 4 works, the bridge has a valid 3DGS-side consumer.
 
+If you downloaded only `scene01`, Habitat-GS may still print validation warnings for `scene02` to `scene55` navmesh entries referenced in `train.scene_dataset_config.json`. Those warnings are expected as long as the specific scene you actually launch, such as `scene01`, initializes successfully.
+
 ## Environment 2: `irsim_latest`
 
 Use this environment for:
@@ -205,6 +207,8 @@ git clone https://github.com/hanruihua/ir-sim.git
 cd ir-sim
 pip install -e .
 ```
+
+Do not rely on bridge-side dependencies alone for the IR-SIM environment. In testing, installing only `requirements-bridge.txt` was not enough because upstream IR-SIM runtime dependencies such as `shapely` were still missing.
 
 After that, install the bridge-side dependencies needed by the watcher and plotting:
 

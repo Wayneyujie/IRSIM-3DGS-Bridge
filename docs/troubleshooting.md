@@ -49,6 +49,26 @@ The trace file is only created during the follow loop. Check:
 - IR-SIM import path via `--irsim_root` or `$IRSIM_ROOT`
 - whether the follow process exited early
 
+## `import irsim` fails even though bridge requirements were installed
+
+Installing only:
+
+```bash
+pip install -r requirements-bridge.txt
+```
+
+is not enough for the IR-SIM runtime environment.
+
+Install IR-SIM itself first, preferably from source:
+
+```bash
+git clone https://github.com/hanruihua/ir-sim.git
+cd ir-sim
+pip install -e .
+```
+
+Then install the bridge requirements.
+
 ## Habitat-GS does not load the PLY
 
 Try stripping the PLY first:
@@ -58,6 +78,22 @@ python scripts/strip_gs_ply_for_habitat.py \
   --input /path/to/point_cloud.ply \
   --output /path/to/scene.gs.ply
 ```
+
+## Habitat-GS prints many missing navmesh warnings for scenes you did not download
+
+If you downloaded only `scene01` from the public GS scenes dataset, Habitat-GS may still validate all scene entries in `train.scene_dataset_config.json`.
+
+Warnings for missing `scene02` to `scene55` navmeshes are expected in that case.
+
+What matters is whether the specific scene you launched, for example:
+
+```bash
+python examples/gaussian_viewer.py \
+  --dataset /path/to/train.scene_dataset_config.json \
+  --scene scene01
+```
+
+actually initializes successfully.
 
 ## `gaussian_viewer.py` fails on `from magnum import shaders, text`
 
