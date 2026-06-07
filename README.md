@@ -33,6 +33,25 @@ Example checked-in artifacts live under [examples/expected_outputs](examples/exp
 
 ## Fastest Path
 
+### 0. Before you start: Habitat-GS must already work
+
+This repository does **not** install Habitat-GS for you.
+
+The one-command demo ends by opening `gaussian_viewer.py` in Habitat-GS first-person mode, so you must already have:
+
+- a working local `habitat-gs`
+- a working `gaussian_viewer.py`
+- the Python executable inside that working Habitat-GS environment
+
+Check that first:
+
+```bash
+cd /path/to/habitat-gs
+/path/to/habitat-gs-env/bin/python examples/gaussian_viewer.py --help
+```
+
+If that command does not work yet, stop here and set up Habitat-GS first.
+
 ### 1. Clone the repository
 
 ```bash
@@ -40,7 +59,7 @@ git clone https://github.com/Wayneyujie/IRSIM-3DGS-Bridge.git
 cd IRSIM-3DGS-Bridge
 ```
 
-### 2. Install the bridge-side Python stack
+### 2. Install IR-SIM and the bridge Python packages
 
 This installs:
 
@@ -59,6 +78,8 @@ Example:
 bash scripts/install_bridge_python.sh --python /path/to/conda-env/bin/python
 ```
 
+This step does **not** install Habitat-GS.
+
 ### 3. Save your local paths once
 
 This writes a reusable `.bridge.env` file in the repository root.
@@ -67,6 +88,16 @@ This writes a reusable `.bridge.env` file in the repository root.
 bash scripts/write_bridge_env.sh \
   --habitat-gs-root /path/to/habitat-gs \
   --habitat-python /path/to/habitat-gs-env/bin/python
+```
+
+`--habitat-python` means the exact Python executable inside the environment where Habitat-GS already works.
+
+Example:
+
+```bash
+bash scripts/write_bridge_env.sh \
+  --habitat-gs-root /home/you/habitat-gs \
+  --habitat-python /home/you/miniconda3/envs/habitat-gs/bin/python
 ```
 
 Then load it:
@@ -132,14 +163,6 @@ The one-command demo intentionally hardcodes the known-good public `scene01` set
 - replay camera height: `1.5`
 
 Those defaults keep the homepage demo short and reproducible. The detailed knobs remain available in the Python scripts and docs.
-
-## What You Need Before Running The Viewer
-
-- A working local `habitat-gs`
-- A working `gaussian_viewer.py`
-- The path to your Habitat-GS Python interpreter
-
-The quick demo installs the IR-SIM side directly from `pip install ir-sim[all]`, but the final one-command effect still depends on your local Habitat-GS viewer.
 
 ## Repository Layout
 
