@@ -15,9 +15,10 @@ HABITAT_PYTHON="${HABITAT_PYTHON:-}"
 HABITAT_GS_ROOT="${HABITAT_GS_ROOT:-}"
 DATA_ROOT="${DATA_ROOT:-${BRIDGE_ROOT}/data}"
 OUTPUT_ROOT="${OUTPUT_ROOT:-${BRIDGE_ROOT}/outputs}"
-VIEWER_MODE="none"
+VIEWER_MODE="first_person"
 FORCE=0
 DISPLAY_IRSIM=0
+PREPARE_ONLY=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -45,6 +46,11 @@ while [[ $# -gt 0 ]]; do
       VIEWER_MODE="$2"
       shift 2
       ;;
+    --prepare-only)
+      PREPARE_ONLY=1
+      VIEWER_MODE="none"
+      shift
+      ;;
     --force)
       FORCE=1
       shift
@@ -66,6 +72,7 @@ Examples:
     --habitat-gs-root /path/to/habitat-gs \
     --habitat-python /path/to/habitat-env/bin/python
   bash scripts/run_scene01_demo.sh --viewer overview --force
+  bash scripts/run_scene01_demo.sh --prepare-only
 
 Viewer modes:
   none
@@ -161,12 +168,15 @@ fi
 echo "[demo] outputs ready under ${QUICK_ROOT}"
 echo "[demo] trajectory: ${GS_TRAJ_JSONL}"
 
-if [[ "${VIEWER_MODE}" == "none" ]]; then
+if [[ "${PREPARE_ONLY}" == "1" || "${VIEWER_MODE}" == "none" ]]; then
   exit 0
 fi
 
 if [[ -z "${HABITAT_GS_ROOT}" || -z "${HABITAT_PYTHON}" ]]; then
-  echo "[demo] viewer mode requires both --habitat-gs-root and --habitat-python" >&2
+  echo "[demo] Habitat-GS replay is the default final step." >&2
+  echo "[demo] Set both --habitat-gs-root and --habitat-python, or write them once with:" >&2
+  echo "       bash scripts/write_bridge_env.sh --habitat-gs-root /path/to/habitat-gs --habitat-python /path/to/habitat-env/bin/python" >&2
+  echo "[demo] If you only want intermediate bridge outputs, re-run with --prepare-only" >&2
   exit 1
 fi
 

@@ -27,7 +27,7 @@ This repository gives you:
 - An IR-SIM world generated from that map
 - An A* path plus an `irsim_follow_trace.jsonl`
 - A converted `gs_agent_trajectory.jsonl`
-- Habitat-GS replay in either first-person or overview mode
+- Habitat-GS first-person replay inside the GS scene
 
 Example checked-in artifacts live under [examples/expected_outputs](examples/expected_outputs).
 
@@ -84,32 +84,33 @@ This single command:
 - exports the IR-SIM world
 - runs A* plus IR-SIM following
 - converts the follow trace back into Habitat-GS poses
+- opens Habitat-GS in first-person replay mode
 
 ```bash
 bash scripts/run_scene01_demo.sh
 ```
 
-Outputs go to:
+The final viewer step uses the Habitat-GS paths saved in `.bridge.env`.
+
+Outputs are also saved under:
 
 ```text
 outputs/quickstart/scene01/
 ```
 
-### 5. Open the final effect in Habitat-GS
-
-First-person replay:
-
-```bash
-bash scripts/run_scene01_demo.sh --viewer first_person
-```
-
-Overview replay:
+### 5. Open the overview camera instead
 
 ```bash
 bash scripts/run_scene01_demo.sh --viewer overview
 ```
 
-If you prefer not to save `.bridge.env`, you can pass the paths inline:
+### 6. If you only want the intermediate bridge outputs
+
+```bash
+bash scripts/run_scene01_demo.sh --prepare-only
+```
+
+### 7. If you prefer not to save `.bridge.env`
 
 ```bash
 bash scripts/run_scene01_demo.sh \
@@ -138,7 +139,7 @@ Those defaults keep the homepage demo short and reproducible. The detailed knobs
 - A working `gaussian_viewer.py`
 - The path to your Habitat-GS Python interpreter
 
-The quick demo can run the IR-SIM side directly from `pip install ir-sim[all]`.
+The quick demo installs the IR-SIM side directly from `pip install ir-sim[all]`, but the final one-command effect still depends on your local Habitat-GS viewer.
 
 ## Repository Layout
 
