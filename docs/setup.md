@@ -1,11 +1,49 @@
 # Setup
 
-This repository is easiest to use with two separate conda environments:
+This repository supports two setup modes.
+
+## Mode A: Single-Environment Demo
+
+Use this if your goal is simple:
+
+- get the public `scene01` demo running
+- end in Habitat-GS first-person replay
+- keep the README path short
+
+In this mode, you use your existing `habitat-gs` environment for everything:
+
+- Habitat-GS viewer
+- occupancy export
+- IR-SIM follow
+- trajectory conversion
+
+That is the recommended path for first-time users of this repository.
+
+From the repository root:
+
+```bash
+conda activate habitat-gs
+bash scripts/install_bridge_python.sh
+bash scripts/write_bridge_env.sh \
+  --habitat-gs-root /path/to/habitat-gs \
+  --habitat-python "$(which python)"
+source .bridge.env
+bash scripts/run_scene01_demo.sh
+```
+
+## Mode B: Two-Environment Workflow
+
+Use this if your goal is more advanced:
+
+- keep Habitat-GS isolated
+- keep IR-SIM isolated
+- run the multi-window live-sync workflow
+- avoid dependency pollution while developing
+
+This is the workflow used during development:
 
 - `habitat-gs`
 - `irsim_latest`
-
-That mirrors the workflow used during development:
 
 - `habitat-gs` runs Habitat-GS itself and the 3DGS-side bridge scripts
 - `irsim_latest` runs IR-SIM following and the live watcher
@@ -15,20 +53,23 @@ Validated references:
 - `habitat-gs`: `eb322e97772dedd00e36c4267dbc5619d0bffa52`
 - `ir-sim`: `201244932d60942e8f214757bb01ca10373c1e5c`
 
-## Fast Path
+## Fast Path For Advanced Users
 
-If you already have a working Habitat-GS environment, the shortest path is:
+If you already know you want the two-environment workflow, the shortest path is:
 
 ```bash
-bash scripts/install_bridge_python.sh
+conda activate habitat-gs
+bash scripts/install_bridge_python.sh --skip-irsim --python "$(which python)"
+conda activate irsim_latest
+bash scripts/install_bridge_python.sh --python "$(which python)"
 bash scripts/write_bridge_env.sh \
   --habitat-gs-root /path/to/habitat-gs \
-  --habitat-python /path/to/habitat-gs-env/bin/python
+  --habitat-python /path/to/habitat-gs-env/bin/python \
+  --irsim-root /path/to/ir-sim
 source .bridge.env
-bash scripts/run_scene01_demo.sh --viewer first_person
 ```
 
-The rest of this page explains the longer manual setup in detail.
+The rest of this page explains the detailed manual setup for the two-environment workflow.
 
 ## Recommended Layout
 

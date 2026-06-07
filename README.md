@@ -35,7 +35,7 @@ Example checked-in artifacts live under [examples/expected_outputs](examples/exp
 
 ### 0. Before you start: Habitat-GS must already work
 
-This repository does **not** install Habitat-GS for you.
+Install Habitat-GS first, then come back here.
 
 The one-command demo ends by opening `gaussian_viewer.py` in Habitat-GS first-person mode, so you must already have:
 
@@ -50,7 +50,7 @@ cd /path/to/habitat-gs
 /path/to/habitat-gs-env/bin/python examples/gaussian_viewer.py --help
 ```
 
-If that command does not work yet, stop here and set up Habitat-GS first.
+If that command does not work yet, stop here and set up Habitat-GS first. See [docs/setup.md](docs/setup.md) for the tested Habitat-GS setup flow.
 
 ### 1. Clone the repository
 
@@ -59,7 +59,19 @@ git clone https://github.com/Wayneyujie/IRSIM-3DGS-Bridge.git
 cd IRSIM-3DGS-Bridge
 ```
 
-### 2. Install IR-SIM and the bridge Python packages
+### 2. Activate your existing `habitat-gs` environment
+
+```bash
+conda activate habitat-gs
+```
+
+Then make sure `python` is the same one that already runs `gaussian_viewer.py`:
+
+```bash
+which python
+```
+
+### 3. Install IR-SIM and the bridge Python packages into that same environment
 
 This installs:
 
@@ -70,7 +82,9 @@ This installs:
 bash scripts/install_bridge_python.sh
 ```
 
-If you are not using the shell's default `python`, pass the exact interpreter you want to install into.
+The intended default is: install these packages into your existing `habitat-gs` environment.
+
+If `python` in your current shell is not the Habitat-GS interpreter, pass the exact one you want:
 
 Example:
 
@@ -78,9 +92,7 @@ Example:
 bash scripts/install_bridge_python.sh --python /path/to/conda-env/bin/python
 ```
 
-This step does **not** install Habitat-GS.
-
-### 3. Save your local paths once
+### 4. Save your local paths once
 
 This writes a reusable `.bridge.env` file in the repository root.
 
@@ -106,7 +118,7 @@ Then load it:
 source .bridge.env
 ```
 
-### 4. Run the full public `scene01` demo
+### 5. Run the full public `scene01` demo
 
 This single command:
 
@@ -129,19 +141,19 @@ Outputs are also saved under:
 outputs/quickstart/scene01/
 ```
 
-### 5. Open the overview camera instead
+### 6. Open the overview camera instead
 
 ```bash
 bash scripts/run_scene01_demo.sh --viewer overview
 ```
 
-### 6. If you only want the intermediate bridge outputs
+### 7. If you only want the intermediate bridge outputs
 
 ```bash
 bash scripts/run_scene01_demo.sh --prepare-only
 ```
 
-### 7. If you prefer not to save `.bridge.env`
+### 8. If you prefer not to save `.bridge.env`
 
 ```bash
 bash scripts/run_scene01_demo.sh \
@@ -191,7 +203,7 @@ examples/expected_outputs/
 
 The homepage keeps the path short on purpose. Use the docs when you want to customize things:
 
-- [docs/setup.md](docs/setup.md): detailed environment setup and version notes
+- [docs/setup.md](docs/setup.md): detailed setup, including the advanced two-environment workflow (`habitat-gs` + `irsim_latest`)
 - [docs/pipeline.md](docs/pipeline.md): full live-sync multi-window workflow
 - [docs/custom_scene.md](docs/custom_scene.md): adapting the bridge to your own GS scene
 - [docs/troubleshooting.md](docs/troubleshooting.md): common failure modes
