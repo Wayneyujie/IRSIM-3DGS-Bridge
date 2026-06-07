@@ -35,6 +35,31 @@ gaussian_viewer.py --agent-trajectory-live
 
 ## Four-Window Setup
 
+## Pre-Clean Before Live Sync
+
+Before starting the four-window setup, clear the previous live-sync artifacts. This avoids mixing a stale `clicked_start_goal_world.yaml`, old IR-SIM trace rows, and a previously generated GS live trajectory.
+
+Delete these three files:
+
+- `irsim_follow_trace.jsonl`
+- `gs_live_trajectory.jsonl`
+- `clicked_start_goal_world.yaml`
+
+Example:
+
+```bash
+rm -f \
+  $OUTPUT_ROOT/live_sync/irsim_follow_trace.jsonl \
+  $OUTPUT_ROOT/live_sync/gs_live_trajectory.jsonl \
+  $OUTPUT_ROOT/live_sync/clicked_start_goal_world.yaml
+```
+
+Why this matters:
+
+- `interactive_astar_irsim.py --follow` rewrites `clicked_start_goal_world.yaml` for the current run
+- the watcher should start from an empty `gs_live_trajectory.jsonl`
+- the viewer windows should consume only the current run, not leftover rows from an older trace
+
 ### Window 1: watcher
 
 ```bash
@@ -93,4 +118,5 @@ MPLCONFIGDIR=/tmp/matplotlib python $BRIDGE_ROOT/scripts/interactive_astar_irsim
 
 - Window 2 and Window 3 are two different camera modes over the same live trajectory file.
 - They do not need to be open simultaneously.
-- If you restart the IR-SIM run, clear the previous `trace`, `clicked_start_goal_world.yaml`, and output trajectory before relaunching, or use `--overwrite` on the watcher.
+- If you restart the IR-SIM run, repeat the pre-clean step above before relaunching the watcher and the viewers.
+- The watcher already supports `--overwrite`, but it does not remove the old IR-SIM trace or the old world file for you.
